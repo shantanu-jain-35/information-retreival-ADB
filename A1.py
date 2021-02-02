@@ -133,8 +133,8 @@ class QuerySession():
 
 if __name__ == "__main__":
     sesh = QuerySession(sys.argv[1])
-    API_KEY = 'AIzaSyDNWorCRZlzJLmXMCjlFCmuYi9YMYN7XTA'
-    ENGINE_ID = '85b4a45bc6204a22a'
+    API_KEY = '[INSERT API KEY]'
+    ENGINE_ID = '[INSERT ENGINE ID]'
     SEARCH_PARAMS = sys.argv[1]
     URL = 'https://www.googleapis.com/customsearch/v1?key=' + API_KEY + '&cx=' + ENGINE_ID + '&q=' + SEARCH_PARAMS
     searchResults = requests.get(url = URL).json()
