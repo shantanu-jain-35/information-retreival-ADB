@@ -1,5 +1,7 @@
 import requests
 import nltk
+nltk.download('stopwords')
+nltk.download('punkt')
 from nltk.tokenize import word_tokenize
 from collections import defaultdict
 import sys
@@ -26,7 +28,7 @@ class QuerySession():
     # Params: Query results from Search API
     # Do: Preprocess raw query data and store as tokenized documents
     """
-    def PreprocessQueryResults(self, QueryResults):
+    def PreprocessQueryResults(self, QueryResults, RelevantDocuments):
         """ 
         TODO: Need to discuss:
             - What elements of search are to be used to create terms? Titles? Snippets? Anything else?
@@ -47,7 +49,7 @@ class QuerySession():
             self.SearchResults[documentIndex] = tokenized_document
         
         # Lastly, update index after all documents have been tokenized
-        return self.UpdateIndex()
+        return self.UpdateIndex(RelevantDocuments)
 
     """
     # Function: UpdateIndex
@@ -71,8 +73,8 @@ class QuerySession():
             "term2":...
         }
     """
-    def UpdateIndex(self):
-        relevantDocs = set([0,1,2,3,4])
+    def UpdateIndex(self, relevantDocs):
+        # relevantDocs = set([0,1,2,3,4])
         for documentIndex in self.SearchResults.keys():
             for word in self.SearchResults[documentIndex]:
                 if word not in self.InvertedList: # Create new word entry if does not exist
@@ -130,15 +132,3 @@ class QuerySession():
                 break
         # print(self.Query)
         return self.Query
-
-if __name__ == "__main__":
-    sesh = QuerySession(sys.argv[1])
-    API_KEY = '[INSERT API KEY]'
-    ENGINE_ID = '[INSERT ENGINE ID]'
-    SEARCH_PARAMS = sys.argv[1]
-    URL = 'https://www.googleapis.com/customsearch/v1?key=' + API_KEY + '&cx=' + ENGINE_ID + '&q=' + SEARCH_PARAMS
-    searchResults = requests.get(url = URL).json()
-    print(searchResults)
-    newQuery = sesh.PreprocessQueryResults(searchResults)
-    print(newQuery)
-

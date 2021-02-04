@@ -2,6 +2,7 @@ import os
 import sys
 import pprint
 from googleapiclient.discovery import build
+import A1
 
 CLIENT_KEY = sys.argv[1]
 ENGINE_KEY = sys.argv[2]
@@ -62,8 +63,10 @@ def userFeedback():
         # TODO: The reference implementation has two such print statements. 
         # Either it prints them twice, or prints them at regular intervals.
         print("Indexing Results...")
-        break
-        # currentQuery += expandQueryKeywords(resultSet)
+        # break
+        newQuery = expandQueryKeywords(currentQuery, userFeedbackSet)
+        currentQuery = ' '.join(newQuery)
+        print(currentQuery)
 
 def executeGoogleQuery(query):
     """
@@ -95,12 +98,16 @@ def executeGoogleQuery(query):
         checkUserInput = checkRelevance(userInput)
         if checkUserInput:
             relevantDocumentSet.append(index)
-    return {"relevantDocuments": relevantDocumentSet,"googleResults": resultSet}
+    return {"relevantDocuments": relevantDocumentSet,"googleResults": res}
 
 def checkRelevance(userInput):
     valid = {"yes": True, "y": True, "ye": True, "Y": True, "YES": True,
              "no": False, "n": False, "N": False, "NO": False}
     return valid[userInput]
+
+def expandQueryKeywords(query, userFeedback):
+    session = A1.QuerySession(query)
+    return session.PreprocessQueryResults(userFeedback['googleResults'], userFeedback['relevantDocuments'])
 
 def main():
     userFeedback()
