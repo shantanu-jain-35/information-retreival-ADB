@@ -1,0 +1,212 @@
+pn2363@instance-a1:~$ python3 user_relevance.py 'AIzaSyDNWorCRZlzJLmXMCjlFCmuYi9YMYN7XTA' '85b4a45bc6204a22a' 0.9 "cases"
+[nltk_data] Downloading package stopwords to /home/pn2363/nltk_data...
+[nltk_data]   Package stopwords is already up-to-date!
+[nltk_data] Downloading package punkt to /home/pn2363/nltk_data...
+[nltk_data]   Package punkt is already up-to-date!
+Parameters:
+Client Key      =        AIzaSyDNWorCRZlzJLmXMCjlFCmuYi9YMYN7XTA
+Engine Key      =        85b4a45bc6204a22a
+Query           =        cases
+Precision       =        0.9
+Google Search Results: 
+=======================
+Result 1
+[
+ URL:  https://www.cases.org/
+ Title:  CASES: Home
+ Summary:  From court and program offices in the Bronx, Brooklyn, and Manhattan, CASES 
+provides community-based alternatives to jail and prison. These programs 
+address ...
+]
+Relevant(Y/N): 
+n
+Result 2
+[
+ URL:  https://www.worldometers.info/coronavirus/?utm_campaign=homeAdvegas1?
+ Title:  Coronavirus Update (Live): 108,257,108 Cases and 2,376,561 ...
+ Summary:  Live statistics and coronavirus news tracking the number of confirmed cases, 
+recovered patients, tests, and death toll due to the COVID-19 coronavirus from ...
+]
+Relevant(Y/N): 
+y
+Result 3
+[
+ URL:  https://www.dhs.wisconsin.gov/covid-19/cases.htm
+ Title:  COVID-19: Wisconsin Cases | Wisconsin Department of Health ...
+ Summary:  Confirmed cases by age group by date of symptom onset or diagnosis; Percent of 
+confirmed or probable cases by demographics and region; Percent of cases ...
+]
+Relevant(Y/N): 
+y
+Result 4
+[
+ URL:  https://www.cdc.gov/measles/cases-outbreaks.html
+ Title:  Measles Cases and Outbreaks | CDC
+ Summary:  From January 1 to December 31, 2019, 1,282* individual cases of measles were 
+confirmed in 31 states. This is the greatest number of cases reported in the U.S. ...
+]
+Relevant(Y/N): 
+n
+Result 5
+[
+ URL:  https://www.courts.mo.gov/casenet/cases/nameSearch.do
+ Title:  Casenet
+ Summary: N/A
+]
+Relevant(Y/N): 
+n
+Result 6
+[
+ URL:  https://www.mass.gov/info-details/covid-19-response-reporting
+ Title:  COVID-19 Response Reporting | Mass.gov
+ Summary:  Case and testing information by city/town; Contact tracing cases and outreach; 
+Individuals released from isolation (recovered); Cases and deaths in Long Term
+ ...
+]
+Relevant(Y/N): 
+y
+Result 7
+[
+ URL:  https://pbskids.org/oddsquad/games/cases
+ Title:  Odd Squad: Cases
+ Summary:  Visit Your Profile. Your Avatar. logout. Sign In To PBS KIDS. Apps · Shop · 
+Parents · WPTD WPTD station logo. TV Times; Settings. PBS KIDS Settings. 
+Close ...
+]
+Relevant(Y/N): 
+n
+Result 8
+[
+ URL:  https://www.npr.org/sections/health-shots/2020/09/01/816707182/map-tracking-the-spread-of-the-coronavirus-in-the-u-s
+ Title:  Coronavirus Update: Maps And Charts For U.S. Cases And Deaths ...
+ Summary:  14 hours ago ... Tens of thousands of new cases are reported daily nationwide. In the graphics 
+below, explore the trends in your state. View the data via a heat ...
+]
+Relevant(Y/N): 
+y
+Result 9
+[
+ URL:  https://gisanddata.maps.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6
+ Title:  Coronavirus COVID-19 (2019-nCoV)
+ Summary:  Case-Fatality Ratio (%) = Number recorded deaths / Number cases. US Testing 
+Rate: = total test results per 100,000 persons. The "total test results" are equal to "
+ ...
+]
+Relevant(Y/N): 
+y
+Result 10
+[
+ URL:  https://www.nytimes.com/interactive/2020/us/coronavirus-us-cases.html
+ Title:  Coronavirus in the U.S.: Latest Map and Case Count - The New York ...
+ Summary:  For the first time since Election Day, fewer than 100,000 new cases were 
+announced nationwide daily on Sunday, Monday and Tuesday. Case numbers 
+have ...
+]
+Relevant(Y/N): 
+y
+=======================
+FEEDBACK SUMMARY:
+Precision:  0.6
+Still below the desired precision of  0.9
+Indexing Results...
+Parameters:
+Client Key      =        AIzaSyDNWorCRZlzJLmXMCjlFCmuYi9YMYN7XTA
+Engine Key      =        85b4a45bc6204a22a
+Query           =        cases coronavirus deaths
+Precision       =        0.9
+Google Search Results: 
+=======================
+Result 1
+[
+ URL:  https://www.worldometers.info/coronavirus/
+ Title:  Coronavirus Update (Live): 108253333 Cases and 2376331 Deaths ...
+ Summary:  Live statistics and coronavirus news tracking the number of confirmed cases, 
+recovered patients, tests, and death toll due to the COVID-19 coronavirus from ...
+]
+Relevant(Y/N): 
+y
+Result 2
+[
+ URL:  https://www.health.state.mn.us/diseases/coronavirus/situation.html
+ Title:  Situation Update for COVID-19 - Minnesota Dept. of Health
+ Summary:  Cases are removed for many reasons including residence in another state, 
+duplication of cases, and false positive reports. Newly reported deaths, 24. Newly
+ ...
+]
+Relevant(Y/N): 
+y
+Result 3
+[
+ URL:  https://www.npr.org/sections/health-shots/2020/09/01/816707182/map-tracking-the-spread-of-the-coronavirus-in-the-u-s
+ Title:  Coronavirus Update: Maps And Charts For U.S. Cases And Deaths ...
+ Summary:  14 hours ago ... Tens of thousands of new cases are reported daily nationwide. In the graphics 
+below, explore the trends in your state. View the data via a heat ...
+]
+Relevant(Y/N): 
+y
+Result 4
+[
+ URL:  https://www.mass.gov/info-details/covid-19-response-reporting
+ Title:  COVID-19 Response Reporting | Mass.gov
+ Summary:  Daily and cumulative reports on Massachusetts COVID-19 cases, testing, and 
+hospitalizations. ... DOC Coronavirus Information Guide ... groups, race and 
+ethnicity, and sex of cases, hospitalizations and deaths; and city/town specific 
+metrics.
+]
+Relevant(Y/N): 
+y
+Result 5
+[
+ URL:  https://www.sccgov.org/sites/covid19/Pages/dashboard.aspx
+ Title:  COVID-19 Data and Reports - Novel Coronavirus (COVID-19 ...
+ Summary:  This data dashboard provides detailed information about cases and deaths from 
+Coronavirus (COVID-19) in Santa Clara County.
+]
+Relevant(Y/N): 
+y
+Result 6
+[
+ URL:  https://www.doh.wa.gov/Emergencies/COVID19/DataDashboard
+ Title:  COVID-19 Data Dashboard :: Washington State Department of Health
+ Summary:  For more information about the 2019 Novel Coronavirus situation, please visit our 
+COVID-19 page. ... Cases, Hospitalizations and Deaths by County ...
+]
+Relevant(Y/N): 
+y
+Result 7
+[
+ URL:  https://www.michigan.gov/coronavirus/0,9753,7-406-98163_98173---,00.html
+ Title:  Coronavirus - Michigan Data
+ Summary:  If a death certificate is matched to a confirmed COVID-19 case and that record in 
+the MDSS does not indicate the individual died, the MDSS record is updated to ...
+]
+Relevant(Y/N): 
+y
+Result 8
+[
+ URL:  https://www.nytimes.com/interactive/2020/us/coronavirus-us-cases.html
+ Title:  Coronavirus in the U.S.: Latest Map and Case Count - The New York ...
+ Summary:  At least 3,255 new coronavirus deaths and 94,893 new cases were reported in 
+the United States on Feb. 10. Over the past week, there has been an average of ...
+]
+Relevant(Y/N): 
+y
+Result 9
+[
+ URL:  https://www.health.pa.gov/topics/disease/coronavirus/Pages/Cases.aspx
+ Title:  COVID-19 Data for Pennsylvania
+ Summary:  If a case has not been reported as a death, and it is more than 30 days past the ... 
+Each week, the White House Coronavirus Task Force provides a profile to the ...
+]
+Relevant(Y/N): 
+y
+Result 10
+[
+ URL:  https://www.bbc.com/news/world-51235105
+ Title:  Covid map: Coronavirus cases, deaths, vaccinations by country ...
+ Summary:  3 days ago ... Coronavirus is still spreading around the world, with more than 100 million 
+confirmed cases and 2.3 million deaths across nearly 200 countries.
+]
+Relevant(Y/N): 
+y
+The desired precision level reached.

@@ -147,7 +147,7 @@ class QuerySession():
         sortedList = sorted(self.InvertedList, key=lambda word: self.InvertedList[word]['Weight'], reverse=True)
         # print(sortedList)
         # for word in sortedList:
-            # print(f"{word}:{self.InvertedList[word]['Weight']}, {len(self.InvertedList[word]['RelevantDocs'].items())}, ")
+        #     print(f"{word}:{self.InvertedList[word]['Weight']}, {len(self.InvertedList[word]['RelevantDocs'].items())}, ")
 
         prevQueries = set()
         for word in self.Query:
