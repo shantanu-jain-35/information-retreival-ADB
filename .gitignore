@@ -1,8 +1,11 @@
 env
-__pycache__
+/__pycache__
 A1.py
 README(Submission).md
 transcript_1_"per se".txt
 transcript_2_"brin".txt
 transcript_3_"cases".txt
 requirements.txt
+.gitignore
+/.git
+.DS_Store
