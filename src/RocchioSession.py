@@ -39,8 +39,7 @@ class QuerySession():
         # print(self.Query)
         stopwords = set(nltk.corpus.stopwords.words('english')) #Fetch nltk stopwords
 
-        # toTokenize = ['title', 'snippet']
-        toTokenize = ['snippet']
+        toTokenize = ['title', 'snippet']
         for documentIndex in range(len(QueryResults['items'])): # Loop through each document
             tokenized_document = list()
             # Tokenize html via bs4 parsing
@@ -148,7 +147,7 @@ class QuerySession():
         sortedList = sorted(self.InvertedList, key=lambda word: self.InvertedList[word]['Weight'], reverse=True)
         # print(sortedList)
         # for word in sortedList:
-            # print(f"{word}:{self.InvertedList[word]['Weight']}, {len(self.InvertedList[word]['RelevantDocs'].items())}, ")
+        #     print(f"{word}:{self.InvertedList[word]['Weight']}, {len(self.InvertedList[word]['RelevantDocs'].items())}, ")
 
         prevQueries = set()
         for word in self.Query:

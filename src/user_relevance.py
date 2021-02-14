@@ -2,7 +2,7 @@ import os
 import sys
 import pprint
 from googleapiclient.discovery import build
-import A1
+import RocchioSession
 
 CLIENT_KEY = sys.argv[1]
 ENGINE_KEY = sys.argv[2]
@@ -77,7 +77,7 @@ def userFeedback():
         # break
         newQuery = expandQueryKeywords(currentQuery, userFeedbackSet)
         currentQuery = ' '.join(newQuery)
-        print(currentQuery)
+        # print(currentQuery)
 
 def executeGoogleQuery(query):
     """
@@ -97,12 +97,20 @@ def executeGoogleQuery(query):
       cx=ENGINE_KEY,
     ).execute()
     resultSet = res['items']
+    # validCount = 0 #<----NOTE: KeyError thrown with non-html data
     for index in range(10):
+        pprint.pprint(res)
         print("Result " + str(index + 1))
         print("[")
         print(" URL: ", resultSet[index]['link'])
-        print(" Title: ", resultSet[index]['title'])
-        print(" Summary: ", resultSet[index]['snippet'])
+        try:
+            print(" Title: ", resultSet[index]['title'])
+        except:
+            print(" Title: N/A")
+        try:
+            print(" Summary: ", resultSet[index]['snippet'])
+        except:
+            print(" Summary: N/A")
         print("]")
         print("Relevant(Y/N): ")
         userInput = input()
@@ -117,7 +125,7 @@ def checkRelevance(userInput):
     return valid[userInput]
 
 def expandQueryKeywords(query, userFeedback):
-    session = A1.QuerySession(query)
+    session = RocchioSession.QuerySession(query)
     return session.PreprocessQueryResults(userFeedback['googleResults'], userFeedback['relevantDocuments'])
 
 def main():

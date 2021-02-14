@@ -1,1 +1,9 @@
 env
+/**/__pycache__
+/**/A1.py
+README(Submission).md
+/transcripts/*
+.gitignore
+/.git
+.DS_Store
+/**/user_relevance.py
