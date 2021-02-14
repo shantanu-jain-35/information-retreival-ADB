@@ -7,3 +7,4 @@ README(Submission).md
 /.git
 .DS_Store
 /**/user_relevance.py
+/**/.vscode
