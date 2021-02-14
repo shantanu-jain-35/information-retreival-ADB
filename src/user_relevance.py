@@ -9,12 +9,23 @@ ENGINE_KEY = sys.argv[2]
 PRECISION = float(sys.argv[3])
 QUERY = sys.argv[4]
 
-# def processArguments():
-#     clientKey = sys.argv[1]
-#     engineKey = sys.argv[2]
-#     precision = sys.argv[3]
-#     originalQuery = sys.argv[4]
-#     return (clientKey, engineKey, precision, originalQuery)
+def processArguments():
+    clientKey = sys.argv[1]
+    engineKey = sys.argv[2]
+    precision = sys.argv[3]
+    originalQuery = sys.argv[4]
+    print("Parameters:")
+    print("Client Key\t=\t", clientKey)
+    print("Engine Key\t=\t", engineKey)
+    print("Query     \t=\t", originalQuery)
+    print("Precision \t=\t", precision)
+    service = build("customsearch", "v1", developerKey=clientKey)
+    res = service.cse().list(
+      q=originalQuery,
+      cx=engineKey,
+    ).execute()
+    pprint.pprint(res['items'][0])
+    return (clientKey, engineKey, precision, originalQuery)
 
 # def userRelevance(clientKey, engineKey, precision, originalQuery):
 #     print("Parameters:")
@@ -27,9 +38,9 @@ QUERY = sys.argv[4]
 #       q=originalQuery,
 #       cx=engineKey,
 #     ).execute()
-#     pprint.pprint(res['items'][0]['link'])
-#     pprint.pprint(res['items'][0]['title'])
-#     pprint.pprint(res['items'][0]['snippet'])
+#     pprint.pprint(res['items'][0])
+#     # pprint.pprint(res['items'][0]['title'])
+#     # pprint.pprint(res['items'][0]['snippet'])
 
 def userFeedback():
     """
@@ -111,6 +122,8 @@ def expandQueryKeywords(query, userFeedback):
 
 def main():
     userFeedback()
+    # processArguments()
+    # userRelevance()
 
 if __name__ == "__main__":
     main()

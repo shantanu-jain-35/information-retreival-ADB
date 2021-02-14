@@ -36,14 +36,16 @@ class QuerySession():
         print(self.Query)
         stopwords = set(nltk.corpus.stopwords.words('english')) #Fetch nltk stopwords
 
-        toTokenize = ['title', 'snippet']
+        # toTokenize = ['title', 'snippet']
+        toTokenize = ['snippet']
         for documentIndex in range(len(QueryResults['items'])): # Loop through each document
             tokenized_document = list()
             for section in toTokenize:
                 text = QueryResults['items'][documentIndex][section]
                 # print("About to preprocess section: ", section)
                 text = word_tokenize(text) # Use ntlk to tokenize
-                text = [word.lower() for word in text if ((len(word) > 2) and word not in stopwords)]
+                # text = [word.lower() for word in text if ((len(word) > 2) and word not in stopwords)]
+                text = [word.lower() for word in text if ((len(word) > 1) and word not in stopwords)]
                 tokenized_document += text
             print("For document ", documentIndex, " tokenized form is: ", tokenized_document)
             self.SearchResults[documentIndex] = tokenized_document
@@ -79,7 +81,7 @@ class QuerySession():
             for word in self.SearchResults[documentIndex]:
                 if word not in self.InvertedList: # Create new word entry if does not exist
                     self.InvertedList[word] = self.CreateNewIndex()
-                if documentIndex not in relevantDocs:# Create new word entry if does not exist   <- TODO: Standardize how relevant/non-relevant docs are indicated
+                if documentIndex in relevantDocs:# Create new word entry if does not exist   <- TODO: Standardize how relevant/non-relevant docs are indicated
                     self.InvertedList[word]['RelevantDocs'][documentIndex] += 1
                 else:
                     self.InvertedList[word]['NonRelevantDocs'][documentIndex] += 1
@@ -121,7 +123,7 @@ class QuerySession():
         print(self.Query)
         appendedTerms = []
         appendedCount = 0
-        sortedList = sorted(self.InvertedList, key=lambda word: self.InvertedList[word]['Weight'])
+        sortedList = sorted(self.InvertedList, key=lambda word: self.InvertedList[word]['Weight'], reverse=True)
         print(sortedList)
 
         for word in sortedList:
