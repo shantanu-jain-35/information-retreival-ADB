@@ -1,12 +1,13 @@
 # Information-retreival-ADB
 Designing an Information Retrieval Model with Precision @10
 
-#Team Members
+# Team Members
+
 Phan Anh Nguyen (pn2363)
 
 Shantanu Jain (slj2142)
 
-#List of files:
+# List of files:
 + QuerySession.py
 + user_relevance.py
 + transcript_1_"per se".txt
@@ -16,11 +17,19 @@ Shantanu Jain (slj2142)
 
 To install these files, run the following command in the Google VM terminal: 
 
-**pip3 install beautifulsoup4 nltk lxmk requests**
+**pip3 install beautifulsoup4 nltk lxml requests**
 
 # Project design
 
-[TO BE INSERTED]
+Our product code is split into two files: A main driver ("user_relevance.py") and a defined QuerySession class for implementing the query modification ("RocchioSession.py") for each search iteration. The flow of our program works as follows: 
+
+1. The user starts the program with a search term from the command line and desired precision level
+2. Our driver will then call the Google Custom Search API on the provided query terms and display the top 10 results. Here we use the *lxml* as well as the *requests* library to call the API. 
+3. User gets to rank the relevance for each of the presented documents based on a simple "Yes/No" feedback mechanism.
+4. User feedback is consolidated.
+5. A new QuerySession is instantiated and ingests the JSON file returned from the Google Custom Search API as well as the consolidated user feedback. 
+6. Within QuerySession, we use the *beautifulsoup4* and *nltk* libraries to construct a vectorized representation of each document returned in the JSON and use that to construct the inverted list and carry out query modification (described in more detail below). We ultimately return an updated query vector to the driver for the next search iteration. 
+7. Once search precision has reached the specified threshold, our driver will exit.
 
 # Query-modification methodology
 
@@ -32,4 +41,4 @@ Finally, we sorted terms by weight and applied and applied several additional fi
 
 # Google API Keys
 
-[TO BE INSERTED]
+[TO BE UPDATED IN SUBMISSION]
