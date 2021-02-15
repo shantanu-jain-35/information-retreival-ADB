@@ -74,8 +74,8 @@ For the purpose of our project, we have decided to ignore the non-html files. Th
 
 # Google API Keys
 
-Google JSON API Key: "AIzaSyBI5PMmM0fdGmoTIKgSpsRiEGvKHsG0kWs"
-Cloud Engine Key: "a0c2ee796890a2fd4"
+- Google JSON API Key: "AIzaSyBI5PMmM0fdGmoTIKgSpsRiEGvKHsG0kWs"
+- Cloud Engine Key: "a0c2ee796890a2fd4"
 
 # References
 - [Rocchio Algorithm from Wikipedia](https://en.wikipedia.org/wiki/Rocchio_algorithm)
