@@ -1,9 +1,12 @@
-import requests
 import nltk
+nltk.download('stopwords')
+nltk.download('punkt')
+from nltk.stem import *
 from nltk.tokenize import word_tokenize
 from collections import defaultdict
 import sys
 import math
+import json
 
 class QuerySession():
     """
@@ -13,41 +16,41 @@ class QuerySession():
         - SearchResults: Tokenized results returned from Google Search API
         - Alpha, Beta, Gamma: Optional query hyperparams. Default set similar to textbook
     """
-    def __init__(self, query, alpha = 1, beta = .75, gamma = .15):
+    def __init__(self, query, beta = .75, gamma = .75):
         self.InvertedList = dict() # Store IDF later on as well as documents that exist in.
         self.SearchResults = dict()
         self.Query = [query]
-        self.Alpha = alpha
         self.Beta = beta
         self.Gamma = gamma
+        self.Stemmer = PorterStemmer()
 
     """
     # Function: PreprocessQueryResults
     # Params: Query results from Search API
     # Do: Preprocess raw query data and store as tokenized documents
     """
-    def PreprocessQueryResults(self, QueryResults):
-        """ 
-        TODO: Need to discuss:
-            - What elements of search are to be used to create terms? Titles? Snippets? Anything else?
-        """
-        print(self.Query)
+    def PreprocessQueryResults(self, QueryResults, RelevantDocuments):
+        # print(self.Query)
         stopwords = set(nltk.corpus.stopwords.words('english')) #Fetch nltk stopwords
 
         toTokenize = ['title', 'snippet']
         for documentIndex in range(len(QueryResults['items'])): # Loop through each document
             tokenized_document = list()
+            #Tokenize pre-specified sections
             for section in toTokenize:
-                text = QueryResults['items'][documentIndex][section]
-                # print("About to preprocess section: ", section)
-                text = word_tokenize(text) # Use ntlk to tokenize
-                text = [word.lower() for word in text if ((len(word) > 2) and word not in stopwords)]
-                tokenized_document += text
-            print("For document ", documentIndex, " tokenized form is: ", tokenized_document)
+                try:
+                    text = QueryResults['items'][documentIndex][section]
+                    # print("About to preprocess section: ", section)
+                    text = word_tokenize(text) # Use ntlk to tokenize
+                    text = [word.lower() for word in text if ((len(word) > 1) and word.lower() not in stopwords and word.isalpha())]
+                    tokenized_document += text
+                except:
+                    pass
+            # print("For document ", documentIndex, " tokenized form is: ", tokenized_document)
             self.SearchResults[documentIndex] = tokenized_document
         
         # Lastly, update index after all documents have been tokenized
-        return self.UpdateIndex()
+        return self.UpdateIndex(RelevantDocuments)
 
     """
     # Function: UpdateIndex
@@ -71,19 +74,21 @@ class QuerySession():
             "term2":...
         }
     """
-    def UpdateIndex(self):
-        relevantDocs = set([0,1,2,3,4])
+    def UpdateIndex(self, relevantDocs):
+        # relevantDocs = set([0,1,2,3,4])
         for documentIndex in self.SearchResults.keys():
             for word in self.SearchResults[documentIndex]:
                 if word not in self.InvertedList: # Create new word entry if does not exist
                     self.InvertedList[word] = self.CreateNewIndex()
-                if documentIndex not in relevantDocs:# Create new word entry if does not exist   <- TODO: Standardize how relevant/non-relevant docs are indicated
+                if documentIndex in relevantDocs:# Create new word entry if does not exist 
                     self.InvertedList[word]['RelevantDocs'][documentIndex] += 1
                 else:
                     self.InvertedList[word]['NonRelevantDocs'][documentIndex] += 1
 
         for word in self.InvertedList.keys(): # Calculate IDF for each word entry in collection"
-            self.InvertedList[word]['IDF'] = math.log10(len(self.SearchResults.keys())/(len(self.InvertedList[word]['RelevantDocs'].keys()) + len(self.InvertedList[word]['NonRelevantDocs'].keys())))
+            self.InvertedList[word]['IDF'] = math.log10(len(word))+ math.log10(len(self.SearchResults.keys())/(len(self.InvertedList[word]['RelevantDocs'].keys()) + len(self.InvertedList[word]['NonRelevantDocs'].keys())))
+        # print(json.dumps(self.InvertedList))
+        self.relevantDocs = relevantDocs
         return self.GetNewQuery()
         # return 
 
@@ -93,7 +98,7 @@ class QuerySession():
     # Do: Generates and returns empty template for new InvertedIndex entry
     """
     def CreateNewIndex(self):
-        newEntry = dict()
+        newEntry = defaultdict()
         newEntry['IDF'] = None
         newEntry['Weight'] = 0
         newEntry['RelevantDocs'] = defaultdict(lambda:0)
@@ -107,38 +112,34 @@ class QuerySession():
     # Source: Methodology for tf-idf based Rocchio: http://www.cs.cmu.edu/~wcohen/10-605/rocchio.pdf, 
     """
     def GetNewQuery(self):
-        # TODO: Discuss if need to add alpha? Since we're not removing anything? Do we just calculate most relevant idf terms for each search? Seems like it? 
         for word in self.InvertedList.keys(): # For each word, calculate weight based on Rocchio for Relevant and Non-relevant documents
             idf = self.InvertedList[word]['IDF']
             for documentIndex in self.InvertedList[word]['RelevantDocs'].keys():
                 tf = 1 + math.log10(self.InvertedList[word]['RelevantDocs'][documentIndex])
                 self.InvertedList[word]['Weight'] += self.Beta/len(self.InvertedList[word]['RelevantDocs'].keys()) * tf * idf
             for documentIndex in self.InvertedList[word]['NonRelevantDocs'].keys():
-                tf = self.InvertedList[word]['RelevantDocs'][documentIndex]
+                tf = 1 + math.log10(self.InvertedList[word]['NonRelevantDocs'][documentIndex])
                 self.InvertedList[word]['Weight'] -= self.Gamma/len(self.InvertedList[word]['NonRelevantDocs'].keys()) * tf * idf
-        print(self.Query)
         appendedTerms = []
         appendedCount = 0
-        sortedList = sorted(self.InvertedList, key=lambda word: self.InvertedList[word]['Weight'])
-        print(sortedList)
+        sortedList = sorted(self.InvertedList, key=lambda word: self.InvertedList[word]['Weight'], reverse=True)
 
+        prevQueries = set()
+        for word in self.Query:
+            prevQueries.add(word.lower())
+            prevQueries.add(self.Stemmer.stem(word))
         for word in sortedList:
-            if word not in self.Query:
+            if word.lower() not in prevQueries and len(self.InvertedList[word]['RelevantDocs'].items())>min(2, len(self.relevantDocs)):
                 self.Query.append(word)
                 appendedCount += 1
             if appendedCount == 2:
                 break
-        # print(self.Query)
+        # If unable to find 2 words to append, then add first word in sortedlist just to move search along
+        if appendedCount < 2:
+            for word in sortedList:
+                if word not in prevQueries:
+                    self.Query.append(word)
+                    appendedCount += 1
+                if appendedCount == 2:
+                    break
         return self.Query
-
-if __name__ == "__main__":
-    sesh = QuerySession(sys.argv[1])
-    API_KEY = '[INSERT API KEY]'
-    ENGINE_ID = '[INSERT ENGINE ID]'
-    SEARCH_PARAMS = sys.argv[1]
-    URL = 'https://www.googleapis.com/customsearch/v1?key=' + API_KEY + '&cx=' + ENGINE_ID + '&q=' + SEARCH_PARAMS
-    searchResults = requests.get(url = URL).json()
-    print(searchResults)
-    newQuery = sesh.PreprocessQueryResults(searchResults)
-    print(newQuery)
-
