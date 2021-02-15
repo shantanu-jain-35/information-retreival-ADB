@@ -1,4 +1,3 @@
-import requests
 import nltk
 nltk.download('stopwords')
 nltk.download('punkt')
@@ -7,7 +6,6 @@ from nltk.tokenize import word_tokenize
 from collections import defaultdict
 import sys
 import math
-from bs4 import BeautifulSoup
 import json
 
 class QuerySession():
@@ -32,30 +30,12 @@ class QuerySession():
     # Do: Preprocess raw query data and store as tokenized documents
     """
     def PreprocessQueryResults(self, QueryResults, RelevantDocuments):
-        """ 
-        TODO: Need to discuss:
-            - What elements of search are to be used to create terms? Titles? Snippets? Anything else?
-        """
         # print(self.Query)
         stopwords = set(nltk.corpus.stopwords.words('english')) #Fetch nltk stopwords
 
         toTokenize = ['title', 'snippet']
         for documentIndex in range(len(QueryResults['items'])): # Loop through each document
             tokenized_document = list()
-            # Tokenize html via bs4 parsing
-            # try:
-            #     resp = requests.get(QueryResults['items'][documentIndex]['link'])
-            #     txt = resp.text
-            #     soup = BeautifulSoup(txt, 'lxml')
-            #     p_tags = soup.find_all('h1')
-            #     for p in p_tags:
-            #         # print(word_tokenize(p.text))
-            #         text = word_tokenize(p.text)
-            #         text = [word.lower() for word in text if ((len(word) > 1) and word.lower() not in stopwords and word.isalpha())]
-            #         tokenized_document += text
-            # except:
-            #     pass
-
             #Tokenize pre-specified sections
             for section in toTokenize:
                 try:
@@ -100,7 +80,7 @@ class QuerySession():
             for word in self.SearchResults[documentIndex]:
                 if word not in self.InvertedList: # Create new word entry if does not exist
                     self.InvertedList[word] = self.CreateNewIndex()
-                if documentIndex in relevantDocs:# Create new word entry if does not exist   <- TODO: Standardize how relevant/non-relevant docs are indicated
+                if documentIndex in relevantDocs:# Create new word entry if does not exist 
                     self.InvertedList[word]['RelevantDocs'][documentIndex] += 1
                 else:
                     self.InvertedList[word]['NonRelevantDocs'][documentIndex] += 1
@@ -132,7 +112,6 @@ class QuerySession():
     # Source: Methodology for tf-idf based Rocchio: http://www.cs.cmu.edu/~wcohen/10-605/rocchio.pdf, 
     """
     def GetNewQuery(self):
-        # TODO: Discuss if need to add alpha? Since we're not removing anything? Do we just calculate most relevant idf terms for each search? Seems like it? 
         for word in self.InvertedList.keys(): # For each word, calculate weight based on Rocchio for Relevant and Non-relevant documents
             idf = self.InvertedList[word]['IDF']
             for documentIndex in self.InvertedList[word]['RelevantDocs'].keys():
@@ -141,13 +120,9 @@ class QuerySession():
             for documentIndex in self.InvertedList[word]['NonRelevantDocs'].keys():
                 tf = 1 + math.log10(self.InvertedList[word]['NonRelevantDocs'][documentIndex])
                 self.InvertedList[word]['Weight'] -= self.Gamma/len(self.InvertedList[word]['NonRelevantDocs'].keys()) * tf * idf
-        # print(self.Query)
         appendedTerms = []
         appendedCount = 0
         sortedList = sorted(self.InvertedList, key=lambda word: self.InvertedList[word]['Weight'], reverse=True)
-        # print(sortedList)
-        # for word in sortedList:
-        #     print(f"{word}:{self.InvertedList[word]['Weight']}, {len(self.InvertedList[word]['RelevantDocs'].items())}, ")
 
         prevQueries = set()
         for word in self.Query:
@@ -167,6 +142,4 @@ class QuerySession():
                     appendedCount += 1
                 if appendedCount == 2:
                     break
-        # print(json.dumps(self.InvertedList))
-        # print(self.Query)
         return self.Query
