@@ -72,10 +72,6 @@ Finally, we sorted terms by weight and applied and applied several additional fi
 
 For the purpose of our project, we have decided to ignore the non-html files. Therefore, any document set retrieved from the search engine, which is not a html file, will be ignored and **not** considered for precision and query expansion calculations. 
 
-# Google API Keys
-
-- Google JSON API Key: "AIzaSyBI5PMmM0fdGmoTIKgSpsRiEGvKHsG0kWs"
-- Cloud Engine Key: "a0c2ee796890a2fd4"
 
 # References
 - [Rocchio Algorithm from Wikipedia](https://en.wikipedia.org/wiki/Rocchio_algorithm)
